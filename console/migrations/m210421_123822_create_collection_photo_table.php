@@ -9,6 +9,7 @@ class m210421_123822_create_collection_photo_table extends Migration
         $this->createTable('collection_photo', [
             'collection_id' => $this->integer()->notNull(),
             'photo_id' => $this->string()->notNull(),
+            'photo_path' => $this->string()->notNull(),
         ]);
 
         $this->addForeignKey(
