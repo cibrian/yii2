@@ -80,6 +80,7 @@ class UnsplashController extends Controller
         $request = Yii::$app->request;
         $collectionId = $request->post('collection_id');
         $photoId = $request->post('photo_id');
+        $photoPath = $request->post('photo_path');
         $collectionPhoto = CollectionPhoto::find()
             ->where(['collection_id'=>$collectionId])
             ->andwhere(['photo_id'=>$photoId])
@@ -89,8 +90,9 @@ class UnsplashController extends Controller
             $collectionPhoto->delete();
         } else{
             $collectionPhoto = new CollectionPhoto();
-            $collectionPhoto->photo_id = $photoId;
             $collectionPhoto->collection_id = $collectionId;
+            $collectionPhoto->photo_id = $photoId;
+            $collectionPhoto->photo_path = $photoPath;
             $collectionPhoto->save();
         }
 

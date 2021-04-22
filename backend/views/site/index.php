@@ -56,6 +56,7 @@ $form = ActiveForm::begin([
     var collections = <?php echo $collections ?>;
     var updateCollectionUrl = <?php echo json_encode(Url::to(['unsplash/update'])); ?>;
     var chosenImage = "";
+    var chosenImageUrl = "";
     $( document ).ready(function($) {
         $("#search").click(function(e) {
             e.preventDefault(e);
@@ -76,6 +77,7 @@ $form = ActiveForm::begin([
                 }
                 $(".btn-image").bind("click",function(e) {
                   chosenImage = $(this).attr('id');
+                  chosenImageUrl = $(this).prev().attr('src');
                   $("input:checkbox").prop( "checked", false);
                   let photoId = $(this).attr('id');
                     for(collection in collections){
@@ -92,8 +94,9 @@ $form = ActiveForm::begin([
         });
         $(".form-check-input").change(function(e) {
           let data = {
-            photo_id:chosenImage,
-            collection_id:$(this).attr('id')
+            photo_id: chosenImage,
+            collection_id: $(this).attr('id'),
+            photo_path: chosenImageUrl
           };
           $.ajax({
                 url: updateCollectionUrl,
