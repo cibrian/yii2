@@ -1,6 +1,6 @@
 <?php
 use yii;
-use yii\bootstrap\ActiveForm;
+use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
@@ -16,7 +16,7 @@ $form = ActiveForm::begin([
 ]);
 ?>
     <?= $form->field($model, 'query')->textInput(['style'=>'width:400px']); ?>
-    <?= Html::button("Search", ['class' => "btn", 'id'=>'search']); ?>
+    <?= Html::button("Search", ['class' => "btn btn-primary", 'id'=>'search']); ?>
     <div id="photos" style="margin-top:15px"></div>
 
   <div id="collectionModal" class="modal fade" role="dialog">

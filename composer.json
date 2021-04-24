@@ -2,7 +2,7 @@
     "name": "yiisoft/yii2-app-advanced",
     "description": "Yii 2 Advanced Project Template",
     "keywords": ["yii2", "framework", "advanced", "project template"],
-    "homepage": "http://www.yiiframework.com/",
+    "homepage": "http://www.yiiframework.com/","yiisoft/yii2-bootstrap4": "~2.0.6",
     "type": "project",
     "license": "BSD-3-Clause",
     "support": {
@@ -16,7 +16,7 @@
     "require": {
         "php": ">=5.6.0",
         "yiisoft/yii2": "~2.0.14",
-        "yiisoft/yii2-bootstrap": "~2.0.0",
+        "yiisoft/yii2-bootstrap4": "~2.0.6",
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "unsplash/unsplash": "dev-master"
     },
