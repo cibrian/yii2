@@ -5,6 +5,7 @@ use Unsplash;
 use Yii;
 use backend\models\UnsplashSearchForm;
 use common\models\Collection;
+use common\models\CollectionPhoto;
 use common\models\LoginForm;
 use common\models\User;
 use yii\filters\AccessControl;
@@ -26,7 +27,7 @@ class CollectionController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'show'],
+                        'actions' => ['index', 'show', 'remove'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -35,10 +36,15 @@ class CollectionController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => [],
+                    'remove' => ['post'],
                 ],
             ],
         ];
+    }
+
+    public function beforeAction($action) {
+            $this->enableCsrfValidation = false;
+            return parent::beforeAction($action);
     }
 
     /**
@@ -53,11 +59,7 @@ class CollectionController extends Controller
         ];
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
+
     public function actionIndex()
     {
 
@@ -69,18 +71,42 @@ class CollectionController extends Controller
 
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
+
     public function actionShow($id)
     {
 
-        $collection = Collection::find($id)->one();
-
+        $collection = Collection::find()->where(['id' => $id])->one();
         return $this->render('show', [
             'collection' => $collection,
+        ]);
+
+    }
+
+
+    public function actionRemove()
+    {
+
+        $request = Yii::$app->request;
+
+        $collectionId = $request->post('collection_id');
+        $photoId = $request->post('photo_id');
+
+        $collectionPhoto = CollectionPhoto::find()
+            ->where(['collection_id'=>$collectionId])
+            ->andwhere(['photo_id'=>$photoId])
+            ->one();
+
+        if ($collectionPhoto) {
+            $collectionPhoto->delete();
+        }
+
+
+        return \Yii::createObject([
+            'class' => 'yii\web\Response',
+            'format' => \yii\web\Response::FORMAT_JSON,
+            'data' => [
+                'success' => true,
+            ],
         ]);
 
     }
