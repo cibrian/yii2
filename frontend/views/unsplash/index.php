@@ -17,19 +17,19 @@ $form = ActiveForm::begin([
 ]);
 
 ?>
-    <?= $form->field($model, 'query')->textInput(['style'=>'width:400px']); ?>
+    <?= $form->field($model, 'query')->textInput(['style'=>'width:400px'])->label('Search photo on Unsplash'); ?>
     <?= Html::button("Search", ['class' => "btn btn-primary", 'id'=>'search']); ?>
     <div class="container">
       <div id="photos" class="row" style="margin-top:15px"></div>
     </div>
   <div id="collectionModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
-
-      <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Add to Collection</h4>
+          <h5 class="modal-title">Add to collection</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
         <div class="modal-body">
           <?php foreach ($user['collections'] as $collection): ?>
