@@ -65,9 +65,11 @@ class CollectionController extends Controller
     {
 
        $user = Yii::$app->user->identity;
+       $model = new UnsplashSearchForm;
 
        return $this->render('index', [
             'user' => $user,
+            'model' => $model,
         ]);
 
     }

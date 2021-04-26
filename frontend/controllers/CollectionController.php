@@ -27,7 +27,7 @@ class CollectionController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'show', 'remove', 'photo', 'update'],
+                        'actions' => ['index', 'show', 'remove', 'photo', 'update', 'create'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -38,6 +38,7 @@ class CollectionController extends Controller
                 'actions' => [
                     'remove' => ['post'],
                     'update' => ['post'],
+                    'create' => ['post'],
                 ],
             ],
         ];
@@ -65,22 +66,35 @@ class CollectionController extends Controller
     {
 
        $user = Yii::$app->user->identity;
+       $model = new Collection;
 
        return $this->render('index', [
             'user' => $user,
+            'model' => $model,
         ]);
+
+    }
+
+    public function actionCreate()
+    {
+       $request = Yii::$app->request;
+       $model = new Collection;
+       $name = $request->post('Collection')['name'];
+       $model->name = $name;
+       $model->user_id =  (Yii::$app->user->identity)->id;
+       $model->save();
+
+       $this->redirect(array('collection/index'));
 
     }
 
 
     public function actionShow($id)
     {
-
         $collection = Collection::find()->where(['id' => $id])->one();
         return $this->render('show', [
             'collection' => $collection,
         ]);
-
     }
 
 
