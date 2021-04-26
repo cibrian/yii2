@@ -17,8 +17,9 @@ $form = ActiveForm::begin([
 ?>
     <?= $form->field($model, 'query')->textInput(['style'=>'width:400px']); ?>
     <?= Html::button("Search", ['class' => "btn btn-primary", 'id'=>'search']); ?>
-    <div id="photos" style="margin-top:15px"></div>
-
+    <div class="container">
+      <div id="photos" class="row" style="margin-top:15px"></div>
+    </div>
   <div id="collectionModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
@@ -73,11 +74,13 @@ $form = ActiveForm::begin([
                 for (photo in response.photos) {
                     let photoUrl = response.photos[photo].urls.small;
                     let photoId = response.photos[photo].id;
-                    $("#photos").append("<div class='wrap-image'><img src='"+photoUrl+"'><button id='"+photoId+"' class='btn btn-image' onclick='return false;' data-toggle='modal' data-target='#collectionModal'>+</button></div>");
+                    let photoDescription = response.photos[photo].description;
+
+                    $("#photos").append("<div class='card m-4' style='width: 20rem;'><img class='card-img-top' src='"+photoUrl+"'><div class='card-body text-center'><p class='card-text text-capitalize'>"+photoDescription+"</p><button id='"+photoId+"' data-photo-path='"+photoUrl+"' class='btn btn-primary btn-image' onclick='return false;' data-toggle='modal' data-target='#collectionModal'>Add to Collection</button></div></div>");
                 }
                 $(".btn-image").bind("click",function(e) {
                   chosenImage = $(this).attr('id');
-                  chosenImageUrl = $(this).prev().attr('src');
+                  chosenImageUrl = $(this).data('photo-path');
                   $("input:checkbox").prop( "checked", false);
                   let photoId = $(this).attr('id');
                     for(collection in collections){
@@ -112,34 +115,3 @@ $form = ActiveForm::begin([
         });
     });
 </script>
-
-<style type="text/css">
-.wrap-image {
-  position: relative;
-  width: 30%;
-}
-
-.wrap-image img {
-  width: 100%;
-  height: auto;
-}
-
-.wrap-image .btn {
-  position: absolute;
-  top: 14%;
-  left: 85%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  background-color: #555;
-  color: white;
-  font-size: 16px;
-  padding: 12px 24px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.wrap-image .btn:hover {
-  background-color: black;
-}
-</style>

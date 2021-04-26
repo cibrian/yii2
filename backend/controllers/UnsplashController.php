@@ -50,10 +50,12 @@ class UnsplashController extends Controller
 
         $result = Unsplash\Search::photos($query, 1, 12,'landscape')->getResults();
         $photos = [];
+
         foreach ($result as $photo) {
             $photos[] = [
                 'id'=>$photo['id'],
                 'urls'=>$photo['urls'],
+                'description' =>$photo['alt_description'],
             ];
         }
 
