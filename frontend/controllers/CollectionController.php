@@ -154,7 +154,9 @@ class CollectionController extends Controller
 
         $user = Yii::$app->user->identity;
 
-        $u = User::find($user->id)->with('collections.photos')->one();
+        $u = User::find()
+            ->where(['id'=>$user->id])
+            ->with('collections.photos')->one();
 
         $collections = [];
         foreach ($u->collections as $collection) {
