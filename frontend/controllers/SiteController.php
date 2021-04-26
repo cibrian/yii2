@@ -1,19 +1,21 @@
 <?php
 namespace frontend\controllers;
 
-use frontend\models\ResendVerificationEmailForm;
-use frontend\models\VerifyEmailForm;
 use Yii;
-use yii\base\InvalidArgumentException;
-use yii\web\BadRequestHttpException;
-use yii\web\Controller;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 use common\models\LoginForm;
+use common\models\User;
+use frontend\models\ContactForm;
 use frontend\models\PasswordResetRequestForm;
+use frontend\models\ResendVerificationEmailForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
-use frontend\models\ContactForm;
+use frontend\models\UnsplashSearchForm;
+use frontend\models\VerifyEmailForm;
+use yii\base\InvalidArgumentException;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\web\BadRequestHttpException;
+use yii\web\Controller;
 
 /**
  * Site controller
@@ -72,7 +74,29 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+
+        $model = new UnsplashSearchForm;
+        $user = Yii::$app->user->identity;
+        $u = User::find($user->id)->with('collections.photos')->one();
+
+        $collections = [];
+        foreach ($u->collections as $collection) {
+            $photos=[];
+            foreach ($collection->photos as $photo) {
+                $photos[] = $photo->photo_id;
+            }
+            $collections[] = [
+                'id' => $collection->id,
+                'name' => $collection->name,
+                'photos' => $photos
+            ];
+        }
+
+        return $this->render('index', [
+            'model' => $model,
+            'user' => $u,
+            'collections' => json_encode($collections),
+        ]);
     }
 
     /**
