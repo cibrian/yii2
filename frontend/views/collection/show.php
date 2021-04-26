@@ -1,9 +1,20 @@
 <?php
 use yii;
+use yii\bootstrap4\ActiveForm;
+use yii\bootstrap4\Html;
 use yii\helpers\Url;
 ?>
 <div class="container-fluid">
-<h1 class="display-4 mb-5"><?= $collection->name ?></h1>
+  <div class="mb-5">
+    <h1 class="display-4 d-inline" ><?= $collection->name ?></h1>
+    <button
+      class="btn btn-primary"
+      style="vertical-align: text-bottom;"
+      data-toggle="modal" data-target="#editForm"
+      >
+      Edit
+    </button>
+  </div>
 	<div class="row">
 		<?php foreach ($collection->photos as $photo): ?>
 			<div class='wrap-image'>
@@ -14,6 +25,36 @@ use yii\helpers\Url;
 			</div>
 		<?php endforeach; ?>
 	</div>
+</div>
+
+<div class="modal fade" id="editForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Collection Name</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <?php
+            $editForm = ActiveForm::begin(
+              [
+                'action' => ['collection/update',"id"=>$collection->id],
+                'options' => [
+                  'class' => 'search-form'
+                ]
+              ]);
+          ?>
+          <?= $editForm->field($collection, 'name')->textInput(['style'=>'width:400px'])->label('Name'); ?>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <?= Html::submitButton("Update", ['class' => "btn btn-primary", 'id'=>'update']); ?>
+      </div>
+        <?php ActiveForm::end(); ?>
+      </div>
+    </div>
+  </div>
 </div>
 
 

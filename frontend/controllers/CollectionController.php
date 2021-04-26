@@ -27,7 +27,7 @@ class CollectionController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'show', 'remove', 'update'],
+                        'actions' => ['index', 'show', 'remove', 'photo', 'update'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -117,7 +117,7 @@ class CollectionController extends Controller
      *
      * @return string
      */
-    public function actionUpdate()
+    public function actionPhoto()
     {
         $request = Yii::$app->request;
         $collectionId = $request->post('collection_id');
@@ -162,6 +162,27 @@ class CollectionController extends Controller
                 'collections' => $collections,
             ],
         ]);
+    }
+
+     /**
+     * Add/Remove image to/from Collection
+     *
+     * @return string
+     */
+    public function actionUpdate($id)
+    {
+        $request = Yii::$app->request;
+        $name = $request->post('Collection')['name'];
+
+        $collectionPhoto = Collection::find()
+            ->where(['id'=>$id])
+            ->one();
+
+        $collectionPhoto->name = $name;
+        $collectionPhoto->save();
+
+        $this->redirect(array('collection/index'));
+
     }
 
 }

@@ -57,7 +57,7 @@ $form = ActiveForm::begin([
 
 <script type="text/javascript">
     var collections = <?php echo $collections ?>;
-    var updateCollectionUrl = <?php echo json_encode(Url::to(['collection/update'])); ?>;
+    var updateCollectionUrl = <?php echo json_encode(Url::to(['collection/photo'])); ?>;
     var chosenImage = "";
     var chosenImageUrl = "";
     $( document ).ready(function($) {
