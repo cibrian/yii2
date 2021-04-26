@@ -57,7 +57,7 @@ $form = ActiveForm::begin([
 
 <script type="text/javascript">
     var collections = <?php echo $collections ?>;
-    var updateCollectionUrl = <?php echo json_encode(Url::to(['unsplash/update'])); ?>;
+    var updateCollectionUrl = <?php echo json_encode(Url::to(['collection/update'])); ?>;
     var chosenImage = "";
     var chosenImageUrl = "";
     $( document ).ready(function($) {

@@ -27,7 +27,7 @@ class CollectionController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'show', 'remove'],
+                        'actions' => ['index', 'show', 'remove', 'update'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -37,6 +37,7 @@ class CollectionController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'remove' => ['post'],
+                    'update' => ['post'],
                 ],
             ],
         ];
@@ -109,6 +110,58 @@ class CollectionController extends Controller
             ],
         ]);
 
+    }
+
+    /**
+     * Add/Remove image to/from Collection
+     *
+     * @return string
+     */
+    public function actionUpdate()
+    {
+        $request = Yii::$app->request;
+        $collectionId = $request->post('collection_id');
+        $photoId = $request->post('photo_id');
+        $photoPath = $request->post('photo_path');
+        $collectionPhoto = CollectionPhoto::find()
+            ->where(['collection_id'=>$collectionId])
+            ->andwhere(['photo_id'=>$photoId])
+            ->one();
+
+        if ($collectionPhoto) {
+            $collectionPhoto->delete();
+        } else{
+            $collectionPhoto = new CollectionPhoto();
+            $collectionPhoto->collection_id = $collectionId;
+            $collectionPhoto->photo_id = $photoId;
+            $collectionPhoto->photo_path = $photoPath;
+            $collectionPhoto->save();
+        }
+
+        $user = Yii::$app->user->identity;
+
+        $u = User::find($user->id)->with('collections.photos')->one();
+
+        $collections = [];
+        foreach ($u->collections as $collection) {
+            $photos=[];
+            foreach ($collection->photos as $photo) {
+                $photos[] = $photo->photo_id;
+            }
+            $collections[] = [
+                'id' => $collection->id,
+                'name' => $collection->name,
+                'photos' => $photos
+            ];
+        }
+
+        return \Yii::createObject([
+            'class' => 'yii\web\Response',
+            'format' => \yii\web\Response::FORMAT_JSON,
+            'data' => [
+                'collections' => $collections,
+            ],
+        ]);
     }
 
 }

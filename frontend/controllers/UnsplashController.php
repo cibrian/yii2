@@ -6,6 +6,7 @@ use Yii;
 use common\models\CollectionPhoto;
 use common\models\User;
 use frontend\models\UnsplashSearchForm;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 
@@ -18,6 +19,16 @@ class UnsplashController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index','search'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -92,68 +103,13 @@ class UnsplashController extends Controller
             ];
         }
 
-        // var_dump((array)$photos);
         return \Yii::createObject([
             'class' => 'yii\web\Response',
             'format' => \yii\web\Response::FORMAT_JSON,
             'data' => [
                 'photos' => $photos,
-                'code' => 100,
-                'success' => true,
-                'user' => $user,
             ],
         ]);
     }
 
-    /**
-     * Add/Remove image to/from Collection
-     *
-     * @return string
-     */
-    public function actionUpdate()
-    {
-        $request = Yii::$app->request;
-        $collectionId = $request->post('collection_id');
-        $photoId = $request->post('photo_id');
-        $photoPath = $request->post('photo_path');
-        $collectionPhoto = CollectionPhoto::find()
-            ->where(['collection_id'=>$collectionId])
-            ->andwhere(['photo_id'=>$photoId])
-            ->one();
-
-        if ($collectionPhoto) {
-            $collectionPhoto->delete();
-        } else{
-            $collectionPhoto = new CollectionPhoto();
-            $collectionPhoto->collection_id = $collectionId;
-            $collectionPhoto->photo_id = $photoId;
-            $collectionPhoto->photo_path = $photoPath;
-            $collectionPhoto->save();
-        }
-
-        $user = Yii::$app->user->identity;
-
-        $u = User::find($user->id)->with('collections.photos')->one();
-
-        $collections = [];
-        foreach ($u->collections as $collection) {
-            $photos=[];
-            foreach ($collection->photos as $photo) {
-                $photos[] = $photo->photo_id;
-            }
-            $collections[] = [
-                'id' => $collection->id,
-                'name' => $collection->name,
-                'photos' => $photos
-            ];
-        }
-
-        return \Yii::createObject([
-            'class' => 'yii\web\Response',
-            'format' => \yii\web\Response::FORMAT_JSON,
-            'data' => [
-                'collections' => $collections,
-            ],
-        ]);
-    }
 }

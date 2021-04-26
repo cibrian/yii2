@@ -27,7 +27,7 @@ class CollectionController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'show', 'remove'],
+                        'actions' => ['index', 'show', 'remove', 'update'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -37,6 +37,7 @@ class CollectionController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'remove' => ['post'],
+                    'update' => ['post'],
                 ],
             ],
         ];
