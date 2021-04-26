@@ -53,11 +53,13 @@ class UnsplashController extends Controller
     {
 
         $model = new UnsplashSearchForm;
-        $user = Yii::$app->user->identity;
-        $u = User::find($user->id)->with('collections.photos')->one();
+        $user = User::find()->where([
+                'id' => (Yii::$app->user->identity)->id
+            ]
+        )->with('collections.photos')->one();
 
         $collections = [];
-        foreach ($u->collections as $collection) {
+        foreach ($user->collections as $collection) {
             $photos=[];
             foreach ($collection->photos as $photo) {
                 $photos[] = $photo->photo_id;
@@ -71,7 +73,7 @@ class UnsplashController extends Controller
 
         return $this->render('index', [
             'model' => $model,
-            'user' => $u,
+            'user' => $user,
             'collections' => json_encode($collections),
         ]);
     }
