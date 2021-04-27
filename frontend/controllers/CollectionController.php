@@ -27,7 +27,7 @@ class CollectionController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'show', 'remove', 'photo', 'update', 'create'],
+                        'actions' => ['index', 'show', 'remove', 'photo', 'update', 'create','delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -39,6 +39,7 @@ class CollectionController extends Controller
                     'remove' => ['post'],
                     'update' => ['post'],
                     'create' => ['post'],
+                    'delete' => ['delete'],
                 ],
             ],
         ];
@@ -196,6 +197,24 @@ class CollectionController extends Controller
 
         $collectionPhoto->name = $name;
         $collectionPhoto->save();
+
+        $this->redirect(array('collection/index'));
+
+    }
+
+     /**
+     * Add/Remove image to/from Collection
+     *
+     * @return string
+     */
+    public function actionDelete($id)
+    {
+
+        $collection = Collection::find()
+            ->where(['id'=>$id])
+            ->one();
+
+        $collection->delete();
 
         $this->redirect(array('collection/index'));
 

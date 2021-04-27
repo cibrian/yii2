@@ -14,6 +14,22 @@ use yii\helpers\Url;
       >
       Edit
     </button>
+    <?php
+        $editForm = ActiveForm::begin(
+          [
+            'action' => ['collection/delete',"id"=>$collection->id],
+            'method' => 'delete',
+            'options' => [
+              'class' => 'search-form d-inline'
+            ]
+          ]);
+      ?>
+      <?= Html::submitButton("Delete", [
+        'class' => "btn btn-danger",
+        'id'=>'delete',
+        'style' => 'vertical-align: text-bottom;'
+      ]); ?>
+      <?php ActiveForm::end(); ?>
   </div>
 	<div class="row">
 		<?php foreach ($collection->photos as $photo): ?>
