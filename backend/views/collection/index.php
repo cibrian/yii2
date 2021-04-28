@@ -1,11 +1,14 @@
 <?php
 use yii;
+use yii\bootstrap4\ActiveForm;
+use yii\bootstrap4\Html;
 use yii\helpers\Url;
 ?>
 
 <div class="container-fluid">
+
 	<div class="row">
-		<?php foreach ($user->collections as $collection): ?>
+		<?php foreach ($collections as $collection): ?>
 		<div class="card col px-0 mx-2" style="width: 18rem;">
 			<div id="<?= $collection->id ?>" class="carousel slide" data-ride="carousel">
 			  	<div class="carousel-inner">
@@ -31,6 +34,36 @@ use yii\helpers\Url;
 		</div>
 		<?php endforeach; ?>
 	</div>
+</div>
+
+<div class="modal fade" id="createForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Create a new collection</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <?php
+            $createForm = ActiveForm::begin(
+              [
+                'action' => ['collection/create'],
+                'options' => [
+                  'class' => 'search-form'
+                ]
+              ]);
+          ?>
+          <?= $createForm->field($model, 'name')->textInput(['style'=>'width:400px'])->label('Name'); ?>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <?= Html::submitButton("Create", ['class' => "btn btn-primary", 'id'=>'create']); ?>
+      </div>
+        <?php ActiveForm::end(); ?>
+      </div>
+    </div>
+  </div>
 </div>
 
 
