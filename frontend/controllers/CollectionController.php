@@ -27,7 +27,7 @@ class CollectionController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'show', 'remove', 'photo', 'update', 'create','delete'],
+                        'actions' => ['index', 'show', 'remove', 'photo', 'update', 'create','delete', 'test'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -217,6 +217,44 @@ class CollectionController extends Controller
         $collection->delete();
 
         $this->redirect(array('collection/index'));
+
+    }
+
+    public function actionTest()
+    {
+        set_time_limit(0);
+
+        $collection = Collection::find()->where(['id' => 10])->one();
+        $zip = new \ZipArchive();
+        $zipfile = dirname(__FILE__) .'/SampleZIP.zip';
+
+        foreach ($collection->photos as $photo) {
+            $filename = dirname(__FILE__) . "/{$photo->photo_id}.jpg";
+            $file = fopen($filename, 'w+');
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, [
+                CURLOPT_URL            => $photo->photo_path,
+                CURLOPT_RETURNTRANSFER => 1,
+                CURLOPT_FILE           => $file,
+                CURLOPT_TIMEOUT        => 50,
+                CURLOPT_USERAGENT      => 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)'
+            ]);
+
+            $response = curl_exec($curl);
+            curl_close($curl);
+            $flag = \ZipArchive::CREATE;
+            if($zip->open($zipfile, $flag) === true){
+                $zip->addFile($filename, "{$photo->photo_id}.jpg");
+                $zip->close();
+            }
+            else{
+                echo "Error";
+            }
+        }
+
+        return Yii::$app->response->sendFile($zipfile);
 
     }
 
