@@ -27,7 +27,7 @@ class CollectionController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'show', 'remove', 'photo', 'update', 'create','delete', 'test'],
+                        'actions' => ['index', 'show', 'remove', 'photo', 'update', 'create','delete', 'download'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -220,16 +220,18 @@ class CollectionController extends Controller
 
     }
 
-    public function actionTest()
+    public function actionDownload($id)
     {
         set_time_limit(0);
-
-        $collection = Collection::find()->where(['id' => 10])->one();
+        $zipfile = dirname(__DIR__).'/files/Collection.zip';
+        if (file_exists($zipfile)) {
+            unlink($zipfile);
+        }
+        $collection = Collection::find()->where(['id' => $id])->one();
         $zip = new \ZipArchive();
-        $zipfile = dirname(__FILE__) .'/SampleZIP.zip';
 
         foreach ($collection->photos as $photo) {
-            $filename = dirname(__FILE__) . "/{$photo->photo_id}.jpg";
+            $filename = dirname(__DIR__)."/files/{$photo->photo_id}.jpg";
             $file = fopen($filename, 'w+');
 
             $curl = curl_init();
