@@ -37,6 +37,22 @@ use yii\helpers\Url;
       >
       View Slideshow
     </button>
+    <?php
+        $downloadForm = ActiveForm::begin(
+          [
+            'action' => ['collection/download',"id"=>$collection->id],
+            'options' => [
+              'class' => 'search-form d-inline'
+            ]
+          ]);
+      ?>
+      <?= Html::submitButton("Download", [
+        'class' => "btn btn-dark",
+        'id'=>'delete',
+        'style' => 'vertical-align: text-bottom;'
+      ]); ?>
+      <?php ActiveForm::end(); ?>
+
   </div>
 	<div class="row">
 		<?php foreach ($collection->photos as $photo): ?>
