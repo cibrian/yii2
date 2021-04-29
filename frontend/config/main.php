@@ -37,6 +37,16 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'redis' => [
+            'class' => 'yii\redis\Connection',
+            'hostname' => 'redis',
+            'port' => 6379,
+            'database' => 0,
+        ],
+        'cache'         => [
+           'class' => 'yii\redis\Cache',
+           'redis' => 'redis',
+        ],
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
