@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		<button class="btn btn-primary" data-toggle="modal" data-target="#createForm">New Collection</button>
 	</div>
 	<div class="row">
-		<?php foreach ($user->collections as $collection): ?>
+		<?php foreach ($collections as $collection): ?>
 		<div class="card col px-0 mx-2" style="width: 18rem;">
 			<div id="<?= $collection->id ?>" class="carousel slide" data-ride="carousel">
 			  	<div class="carousel-inner">

@@ -66,11 +66,11 @@ class CollectionController extends Controller
     public function actionIndex()
     {
 
-       $user = Yii::$app->user->identity;
+       $collections = Collection::find()->where(['user_id' => Yii::$app->user->identity->id])->cache(60)->all();
        $model = new Collection;
 
        return $this->render('index', [
-            'user' => $user,
+            'collections' => $collections,
             'model' => $model,
         ]);
 
@@ -92,7 +92,9 @@ class CollectionController extends Controller
 
     public function actionShow($id)
     {
-        $collection = Collection::find()->where(['id' => $id])->one();
+
+        $collection = Collection::find()->where(['id' => $id])->cache(60)->one();
+
         return $this->render('show', [
             'collection' => $collection,
         ]);
