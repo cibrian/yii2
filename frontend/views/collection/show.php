@@ -117,7 +117,7 @@ use yii\helpers\Url;
         <span class="dot" onclick="currentSlide(<?= $i ?>)"></span>
       <?php endfor; ?>
       </div>
-      <button class="btn btn-light">Start/Stop</button>
+      <button class="btn btn-light" onclick="control()">Start/Stop</button>
       <!-- slider -->
       </div>
     </div>
@@ -260,21 +260,13 @@ use yii\helpers\Url;
 var slideIndex = 1;
 
 var myTimer;
+var status = true;
 
 var slideshowContainer;
 
 window.addEventListener("load",function() {
     showSlides(slideIndex);
     myTimer = setInterval(function(){plusSlides(1)}, 4000);
-
-    //COMMENT OUT THE LINE BELOW TO KEEP ARROWS PART OF MOUSEENTER PAUSE/RESUME
-    slideshowContainer = document.getElementsByClassName('slideshow-inner')[0];
-
-    //UNCOMMENT OUT THE LINE BELOW TO KEEP ARROWS PART OF MOUSEENTER PAUSE/RESUME
-    // slideshowContainer = document.getElementsByClassName('slideshow-container')[0];
-
-    slideshowContainer.addEventListener('mouseenter', pause)
-    slideshowContainer.addEventListener('mouseleave', resume)
 })
 
 // NEXT AND PREVIOUS CONTROL
@@ -316,6 +308,20 @@ function showSlides(n){
   }
   slides[slideIndex-1].style.display = "block";
   dots[slideIndex-1].className += " active";
+}
+
+control = () => {
+
+  if(status == "true"){
+    console.log("stop")
+    status = false;
+    pause();
+  } else {
+  console.log("resume")
+    status = true;
+    resume();
+  }
+
 }
 
 pause = () => {
