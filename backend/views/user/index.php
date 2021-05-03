@@ -6,6 +6,9 @@ use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 use yii\helpers\Url;
 
+$this->title = 'Users';
+$this->params['breadcrumbs'][] = $this->title;
+
 $dataProvider = new ActiveDataProvider([
     'query' => User::find(),
     'pagination' => [
