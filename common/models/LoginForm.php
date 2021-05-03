@@ -58,7 +58,7 @@ class LoginForm extends Model
         if ($this->validate()) {
             return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         }
-        
+
         return false;
     }
 
@@ -74,5 +74,19 @@ class LoginForm extends Model
         }
 
         return $this->_user;
+    }
+
+    /**
+     * Check If User is Admin
+     *
+     * @return True|False
+     */
+    public function isAdmin()
+    {
+        if ($user = $this->getUser()) {
+            return $user->is_admin;
+        }
+
+        return false;
     }
 }
