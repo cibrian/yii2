@@ -9,7 +9,7 @@ use yii\helpers\Url;
 
 	<div class="row">
 		<?php foreach ($collections as $collection): ?>
-		<div class="card col px-0 mx-2" style="width: 18rem;">
+		<div class="card col-s3 mx-4 my-2" style="width: 20rem;">
 			<div id="<?= $collection->id ?>" class="carousel slide" data-ride="carousel">
 			  	<div class="carousel-inner">
 			  		<?php foreach ($collection->photos as $photo): ?>
