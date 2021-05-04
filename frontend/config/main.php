@@ -15,6 +15,9 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ],
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -40,21 +43,28 @@ return [
         'redis' => [
             'class' => 'yii\redis\Connection',
             'hostname' => 'redis',
-            'port' => 6379,
-            'database' => 0,
+            'port' => 6379
+,            'database' => 0,
         ],
         'cache'         => [
            'class' => 'yii\redis\Cache',
            'redis' => 'redis',
         ],
-        /*
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+
             'rules' => [
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => [
+                        'api/collection', 'api/auth'
+                    ]
+                ],
             ],
         ],
-        */
+
     ],
     'params' => $params,
 ];
