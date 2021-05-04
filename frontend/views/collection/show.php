@@ -111,13 +111,12 @@ use yii\helpers\Url;
         <a class="prev" onclick='plusSlides(-1)'>&#10094;</a>
         <a class="next" onclick='plusSlides(1)'>&#10095;</a>
       </div>
-      <br/>
-      <div style='text-align: center;'>
+      <button class="btn btn-light" onclick="control()">Start/Stop</button>
+      <div style='text-align: center; display: none'>
       <?php for ($i=1;$i<=count($collection->photos);$i++): ?>
         <span class="dot" onclick="currentSlide(<?= $i ?>)"></span>
       <?php endfor; ?>
       </div>
-      <button class="btn btn-light" onclick="control()">Start/Stop</button>
       <!-- slider -->
       </div>
     </div>
@@ -252,6 +251,18 @@ use yii\helpers\Url;
 .active,
 .dot:hover {
     background-color: #717171
+}
+
+.modal-backdrop.show {
+    opacity: 1;
+}
+
+.modal-body{
+  padding: 0;
+}
+
+.modal-content {
+  background-color: #000000;
 }
 
 </style>
