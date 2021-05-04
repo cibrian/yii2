@@ -21,4 +21,12 @@ class CollectionController extends ActiveController
         ];
         return $behaviors;
     }
+
+    public function actions(){
+        $actions = parent::actions();
+        unset($actions['create']);
+        unset($actions['update']);
+        unset($actions['delete']);
+        return $actions;
+    }
 }
