@@ -73,13 +73,13 @@
 }
 
 .modal-backdrop.show {
-    opacity: 1;
+    opacity: 1!important;
 }
 
-.modal-body{
-  padding: 0;
+#slider .modal-body{
+  padding: 0!important;
 }
 
-.modal-content {
-  background-color: #000000;
+#slider .modal-content {
+  background-color: #000000!important;
 }
