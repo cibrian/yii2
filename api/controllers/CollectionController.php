@@ -6,6 +6,7 @@ use common\models\Collection;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
+use yii\web\NotFoundHttpException;
 
 class CollectionController extends ActiveController
 {
@@ -25,26 +26,39 @@ class CollectionController extends ActiveController
 
     public function actions(){
         $actions = parent::actions();
+        unset($actions['index']);
+        unset($actions['view']);
         unset($actions['create']);
         unset($actions['update']);
         unset($actions['delete']);
-        unset($actions['view']);
-        unset($actions['index']);
         return $actions;
     }
 
     public function actionIndex()
     {
-        return Collection::find()->where([
-            'user_id' => Yii::$app->user->getIdentity()->id
+        $userId = Yii::$app->user->getIdentity()->id;
+        $collections =  Collection::find()->where([
+            'user_id' => $userId
         ])->with('photos')->asArray()->all();
+
+        if (!$collections) {
+            throw new NotFoundHttpException("Collections not found for User $userId");
+        }
+
+        return $collections;
     }
 
     public function actionView($id)
     {
-        return Collection::find()->where([
+        $collection = Collection::find()->where([
             'id' => $id,
             'user_id' => Yii::$app->user->getIdentity()->id
-        ])->with('photos')->asArray()->all();
+        ])->with('photos')->asArray()->one();
+
+        if (!$collection) {
+            throw new NotFoundHttpException("Collection $id not found.");
+        }
+
+        return $collection;
     }
 }
