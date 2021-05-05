@@ -64,7 +64,11 @@ return [
                 ],
             ],
         ],
+        'unsplashClient' => [
 
+            'class' => 'frontend\components\UnsplashClient',
+
+        ],
     ],
     'params' => $params,
 ];

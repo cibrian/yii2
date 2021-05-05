@@ -17,9 +17,7 @@ use yii\web\Controller;
  */
 class CollectionController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
+
     public function behaviors()
     {
         return [
@@ -27,7 +25,7 @@ class CollectionController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'show', 'remove', 'photo', 'update', 'create','delete', 'download'],
+                        'actions' => ['index', 'show', 'remove', 'photo', 'update', 'create','delete', 'download','welcome'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -50,9 +48,7 @@ class CollectionController extends Controller
             return parent::beforeAction($action);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function actions()
     {
         return [
@@ -62,11 +58,10 @@ class CollectionController extends Controller
         ];
     }
 
-
     public function actionIndex()
     {
 
-       $collections = Collection::find()->where(['user_id' => Yii::$app->user->identity->id])->cache(60)->all();
+       $collections = Collection::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
        $model = new Collection;
 
        return $this->render('index', [
@@ -129,11 +124,7 @@ class CollectionController extends Controller
 
     }
 
-    /**
-     * Add/Remove image to/from Collection
-     *
-     * @return string
-     */
+
     public function actionPhoto()
     {
         $request = Yii::$app->request;
@@ -183,11 +174,7 @@ class CollectionController extends Controller
         ]);
     }
 
-     /**
-     * Add/Remove image to/from Collection
-     *
-     * @return string
-     */
+
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
@@ -204,11 +191,7 @@ class CollectionController extends Controller
 
     }
 
-     /**
-     * Add/Remove image to/from Collection
-     *
-     * @return string
-     */
+
     public function actionDelete($id)
     {
 

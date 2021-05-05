@@ -1,7 +1,6 @@
 <?php
 namespace frontend\controllers;
 
-use Unsplash;
 use Yii;
 use common\models\CollectionPhoto;
 use common\models\User;
@@ -82,34 +81,14 @@ class UnsplashController extends Controller
     public function actionSearch()
     {
 
-        Unsplash\HttpClient::init([
-            'applicationId' => 'f8ulmBmgZ7QYMM4Jvn_lFpAbU9-oh2whhAvaQatoSCk',
-            'secret'    => 'crrX0Hwgm0siUFB6suZtTjvJ6NmkZ2eL1BW8TLkPtFA',
-            'callbackUrl'   => 'https://your-application.com/oauth/callback',
-            'utmSource' => 'NAME OF YOUR APPLICATION'
-        ]);
-
         $request = Yii::$app->request;
-        $user = Yii::$app->user->identity;
-
         $query = $request->post('UnsplashSearchForm')['query'];
-
-        $result = Unsplash\Search::photos($query, 1, 12,'landscape')->getResults();
-        $photos = [];
-
-        foreach ($result as $photo) {
-            $photos[] = [
-                'id'=>$photo['id'],
-                'urls'=>$photo['urls'],
-                'description' =>$photo['alt_description'],
-            ];
-        }
 
         return \Yii::createObject([
             'class' => 'yii\web\Response',
             'format' => \yii\web\Response::FORMAT_JSON,
             'data' => [
-                'photos' => $photos,
+                'photos' => Yii::$app->unsplashClient->search($query),
             ],
         ]);
     }
