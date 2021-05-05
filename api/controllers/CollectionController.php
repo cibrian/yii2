@@ -1,6 +1,7 @@
 <?php
 namespace api\controllers;
 
+use Yii;
 use common\models\Collection;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBearerAuth;
@@ -27,6 +28,23 @@ class CollectionController extends ActiveController
         unset($actions['create']);
         unset($actions['update']);
         unset($actions['delete']);
+        unset($actions['view']);
+        unset($actions['index']);
         return $actions;
+    }
+
+    public function actionIndex()
+    {
+        return Collection::find()->where([
+            'user_id' => Yii::$app->user->getIdentity()->id
+        ])->with('photos')->asArray()->all();
+    }
+
+    public function actionView($id)
+    {
+        return Collection::find()->where([
+            'id' => $id,
+            'user_id' => Yii::$app->user->getIdentity()->id
+        ])->with('photos')->asArray()->all();
     }
 }
