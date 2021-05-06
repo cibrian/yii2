@@ -32,7 +32,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login','error','signup'],
+                        'actions' => ['login','error','signup','verify-email'],
                         'allow' => true,
                     ],
                     [
