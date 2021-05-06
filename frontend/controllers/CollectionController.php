@@ -146,24 +146,9 @@ class CollectionController extends Controller
             $collectionPhoto->save();
         }
 
-        $user = Yii::$app->user->identity;
-
-        $u = User::find()
-            ->where(['id'=>$user->id])
-            ->with('collections.photos')->one();
-
-        $collections = [];
-        foreach ($u->collections as $collection) {
-            $photos=[];
-            foreach ($collection->photos as $photo) {
-                $photos[] = $photo->photo_id;
-            }
-            $collections[] = [
-                'id' => $collection->id,
-                'name' => $collection->name,
-                'photos' => $photos
-            ];
-        }
+        $collections = Collection::find()->where([
+            'user_id' =>Yii::$app->user->identity->id
+        ])->with('photos')->asArray()->all();
 
         return \Yii::createObject([
             'class' => 'yii\web\Response',

@@ -6,6 +6,8 @@ use yii\helpers\Json;
 use yii\helpers\Url;
 
 $this->title = 'Home';
+$this->registerJsVar('updateCollectionUrl', Url::to(['collection/photo']));
+$this->registerJsVar('collections', $collections);
 ?>
 
 <?php
@@ -32,11 +34,11 @@ $form = ActiveForm::begin([
           </button>
         </div>
         <div class="modal-body">
-          <?php foreach ($user['collections'] as $collection): ?>
+          <?php foreach ($collections as $collection): ?>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="<?= $collection->id ?>" id="<?= $collection->id ?>">
-              <label class="form-check-label" for="<?= $collection->id ?>">
-                <?= $collection->name ?>
+              <input class="form-check-input" type="checkbox" value="<?= $collection['id'] ?>" id="<?= $collection['id'] ?>">
+              <label class="form-check-label" for="<?= $collection['id'] ?>">
+                <?= $collection['name'] ?>
               </label>
             </div>
           <?php endforeach; ?>
@@ -56,8 +58,6 @@ $form = ActiveForm::begin([
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
-    var collections = <?php echo $collections ?>;
-    var updateCollectionUrl = <?php echo json_encode(Url::to(['collection/photo'])); ?>;
     var chosenImage = "";
     var chosenImageUrl = "";
     $( document ).ready(function($) {
@@ -86,7 +86,7 @@ $form = ActiveForm::begin([
                   $("input:checkbox").prop( "checked", false);
                   let photoId = $(this).attr('id');
                     for(collection in collections){
-                      if(collections[collection].photos.find(photo => photo === photoId)){
+                      if(collections[collection].photos.find(photo => photo.photo_id === photoId)){
                         $(`#${collections[collection].id}`).prop( "checked", true );
                       }
                     }
@@ -110,7 +110,6 @@ $form = ActiveForm::begin([
                 data: data,
             }).done(function(response){
               collections = response.collections;
-              console.log(collections);
             }).fail(function() {
                 alert("error");
             });

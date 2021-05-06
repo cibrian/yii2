@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use common\models\Collection;
 use common\models\CollectionPhoto;
 use common\models\User;
 use frontend\models\UnsplashSearchForm;
@@ -52,28 +53,14 @@ class UnsplashController extends Controller
     {
 
         $model = new UnsplashSearchForm;
-        $user = User::find()->where([
-                'id' => (Yii::$app->user->identity)->id
-            ]
-        )->with('collections.photos')->one();
 
-        $collections = [];
-        foreach ($user->collections as $collection) {
-            $photos=[];
-            foreach ($collection->photos as $photo) {
-                $photos[] = $photo->photo_id;
-            }
-            $collections[] = [
-                'id' => $collection->id,
-                'name' => $collection->name,
-                'photos' => $photos
-            ];
-        }
+        $collections = Collection::find()->where([
+            'user_id' =>Yii::$app->user->identity->id
+        ])->with('photos')->asArray()->all();
 
         return $this->render('index', [
             'model' => $model,
-            'user' => $user,
-            'collections' => json_encode($collections),
+            'collections' => $collections,
         ]);
     }
 
