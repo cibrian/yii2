@@ -6,7 +6,7 @@ use common\fixtures\CollectionFixture;
 use common\fixtures\UserFixture;
 use frontend\tests\FunctionalTester;
 
-class CollectionCest
+class CollectionIndexCest
 {
 
 	/**
