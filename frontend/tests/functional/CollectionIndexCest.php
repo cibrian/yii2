@@ -25,7 +25,7 @@ class CollectionIndexCest
             ],
             'collection' => [
                 'class' => CollectionFixture::className(),
-                'dataFile' => codecept_data_dir() . 'collection.php',
+                'dataFile' => codecept_data_dir() . 'collections.php',
             ]
         ];
     }
@@ -55,6 +55,7 @@ class CollectionIndexCest
         $I->fillField('input[name="Collection[name]"]', "Collection 1");
         $I->click("#create");
         $I->see('Collection 1');
+        $I->seeRecord('common\models\Collection', array('name' => 'Collection 1', 'user_id' => 1));
     }
 
     public function testShouldFailIfUserIsNotLogged(FunctionalTester $I)
