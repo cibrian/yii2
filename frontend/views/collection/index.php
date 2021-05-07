@@ -1,5 +1,4 @@
 <?php
-use yii;
 use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
 use yii\helpers\Url;
@@ -10,7 +9,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="container-fluid">
 	<div class="text-right my-2">
-		<button class="btn btn-primary" data-toggle="modal" data-target="#createForm">New Collection</button>
+		<button class="btn btn-primary" data-toggle="modal" data-target="#createForm" id="newCollection">New Collection</button>
 	</div>
 	<div class="row">
 		<?php foreach ($collections as $collection): ?>
