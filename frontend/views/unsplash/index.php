@@ -1,5 +1,4 @@
 <?php
-use yii;
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Json;
