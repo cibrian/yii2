@@ -1,5 +1,4 @@
 <?php
-use yii;
 use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
 use yii\helpers\Url;
@@ -8,6 +7,7 @@ use yii\helpers\Url;
   <div class="mb-5">
     <h1 class="display-4 d-inline" ><?= $collection->name ?></h1>
     <button
+      id="editFormBtn"
       class="btn btn-primary"
       style="vertical-align: text-bottom;"
       data-toggle="modal" data-target="#editForm"
