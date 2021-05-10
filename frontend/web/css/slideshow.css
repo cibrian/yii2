@@ -83,3 +83,17 @@
 #slider .modal-content {
   background-color: #000000!important;
 }
+
+.play {
+  position: absolute;
+  top: 90%;
+  left: 92%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  color: white;
+  font-size: 16px;
+  padding: 8px 18px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}

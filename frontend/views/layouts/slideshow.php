@@ -31,21 +31,3 @@
     </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style type="text/css">
-
-
-.play {
-  position: absolute;
-  top: 90%;
-  left: 92%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  color: white;
-  font-size: 16px;
-  padding: 8px 18px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-</style>
