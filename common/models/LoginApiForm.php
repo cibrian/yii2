@@ -57,7 +57,7 @@ class LoginApiForm extends Model
                 $access_token = $this->_user->generateAccessToken();
                 $this->_user->save();
                 Yii::$app->user->login($this->_user, static::EXPIRE_TIME);
-                return $access_token;
+                return true;
             }
         }
         return false;
@@ -68,7 +68,7 @@ class LoginApiForm extends Model
      *
      * @return User|null
      */
-    protected function getUser()
+    public function getUser()
     {
         if ($this->_user === null) {
             $this->_user = User::findByUsername($this->username);

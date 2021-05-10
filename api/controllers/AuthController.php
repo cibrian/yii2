@@ -26,7 +26,7 @@ class AuthController extends ActiveController
             && $model->login()
         ) {
             return [
-                'access_token' => $model->login(),
+                'access_token' => $model->getUser()->access_token,
             ];
         } else {
             return $model->getFirstErrors();
