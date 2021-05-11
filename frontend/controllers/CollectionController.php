@@ -3,11 +3,12 @@ namespace frontend\controllers;
 
 use Unsplash;
 use Yii;
-use frontend\models\UnsplashSearchForm;
 use common\models\Collection;
+use common\models\CollectionForm;
 use common\models\CollectionPhoto;
 use common\models\LoginForm;
 use common\models\User;
+use frontend\models\UnsplashSearchForm;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -62,7 +63,7 @@ class CollectionController extends Controller
     {
 
        $collections = Collection::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
-       $model = new Collection;
+       $model = new CollectionForm;
 
        return $this->render('index', [
             'collections' => $collections,
@@ -73,15 +74,19 @@ class CollectionController extends Controller
 
     public function actionCreate()
     {
-       $request = Yii::$app->request;
-       $model = new Collection;
-       $name = $request->post('Collection')['name'];
-       $model->name = $name;
-       $model->user_id =  (Yii::$app->user->identity)->id;
-       $model->save();
+       $model = new CollectionForm();
+       if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+           $request = Yii::$app->request;
+           $model = new Collection;
+           $name = $request->post('CollectionForm')['name'];
+           $model->name = $name;
+           $model->user_id =  (Yii::$app->user->identity)->id;
+           $model->save();
+           $this->redirect(array('collection/index'));
+       }
 
+       Yii::$app->session->setFlash('error', 'There was an error creating a new collection. Duplicated Name.');
        $this->redirect(array('collection/index'));
-
     }
 
 
