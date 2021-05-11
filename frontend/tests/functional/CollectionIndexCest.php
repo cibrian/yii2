@@ -52,7 +52,7 @@ class CollectionIndexCest
         $I->amOnPage("collection/index");
         $I->see('New Collection');
         $I->click("#newCollection");
-        $I->fillField('input[name="Collection[name]"]', "Collection 1");
+        $I->fillField('input[name="CollectionForm[name]"]', "Collection 1");
         $I->click("#create");
         $I->see('Collection 1');
         $I->seeRecord('common\models\Collection', array('name' => 'Collection 1', 'user_id' => 1));
