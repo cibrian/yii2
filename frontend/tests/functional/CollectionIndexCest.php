@@ -58,6 +58,17 @@ class CollectionIndexCest
         $I->seeRecord('common\models\Collection', array('name' => 'Collection 1', 'user_id' => 1));
     }
 
+    public function testShouldFailIfDuplicatedName(FunctionalTester $I)
+    {
+        $I->amLoggedInAs(1);
+        $I->amOnPage("collection/index");
+        $I->see('New Collection');
+        $I->click("#newCollection");
+        $I->fillField('input[name="CollectionForm[name]"]', "Guinea Pigs");
+        $I->click("#create");
+        $I->see('There was an error creating a new collection. Duplicated Name.');
+    }
+
     public function testShouldFailIfUserIsNotLogged(FunctionalTester $I)
     {
         $I->amOnPage("collection/index");
